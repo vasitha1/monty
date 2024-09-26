@@ -57,7 +57,49 @@ int count_line(FILE *file)
 		count++;
 	return (count);
 }
-
+/**
+ * execute_line - Executes a line in the file
+ * @tok: First tocken representing command
+ * @tok2: Second token representing argument
+ * @line_num: Number of the line.
+ * @line: String to be freed if exiting
+ * @s: stack
+ *
+ * Return: Void
+ */
+void execute_line(char *tok, char *tok2, int line_num, char *line, stack_t **s)
+{
+	if (strcmp(tok, "push") == 0)
+	{
+		if (tok2 == NULL ||
+		(atoi(tok2) == 0 && strcmp(tok2, "0") != 0))
+		{
+			fprintf(stderr, "L%d: unknown instruction %s",
+				line_num, line);
+			free(line);
+			exit(EXIT_FAILURE);
+		}
+		push(s, tok2);
+	}
+	else if (strcmp(tok, "pall") == 0)
+	{
+		if (tok2 != NULL)
+		{
+			fprintf(stderr, "L%d: unknown instruction %s",
+				line_num, line);
+			free(line);
+			exit(EXIT_FAILURE);
+		}
+		pall(*s);
+	}
+	else
+	{
+		fprintf(stderr, "L%d: unknown instruction %s",
+			line_num, line);
+		free(line);
+		exit(EXIT_FAILURE);
+	}
+}
 
 /**
  * read_and_execute - Function that reads from file and executes command
@@ -87,21 +129,7 @@ void read_and_execute(FILE *file)
 			free(new_line);
 			continue;
 		}
-		if (strcmp(token, "push") == 0)
-		{
-			if (token2 != NULL)
-				push(&stack, token2);
-		}
-		else if (strcmp(token, "pall") == 0)
-			pall(stack);
-		else
-		{
-			fprintf(stderr, "L%d: unknown instruction %s",
-				line_number, token);
-			free(new_line);
-			free(line);
-			exit(EXIT_FAILURE);
-		}
+		execute_line(token, token2, line_number, new_line, &stack);
 		free(new_line);
 	}
 	free(line);
