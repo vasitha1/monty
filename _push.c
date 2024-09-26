@@ -1,6 +1,5 @@
 #include "monty.h"
 
-stack_t *stack = NULL;
 
 /**
  * push - function that adds an element to a dynamic stack
@@ -8,7 +7,7 @@ stack_t *stack = NULL;
  *
  * Return: Null
  */
-void push(char *element)
+void push(stack_t **stack, char *element)
 {
 	stack_t *new_node;
 
@@ -21,13 +20,13 @@ void push(char *element)
 	}
 
 	new_node->n = atoi(element);
-	new_node->next = stack;
+	new_node->next = *stack;
 	new_node->prev = NULL;
 
-	if (stack != NULL)
-		stack->prev = new_node;
+	if (*stack != NULL)
+		(*stack)->prev = new_node;
 
-	stack = new_node;
+	*stack = new_node;
 }
 
 /**
@@ -35,7 +34,7 @@ void push(char *element)
  *
  * Return: void
  */
-void pall(void)
+void pall(stack_t *stack)
 {
 	stack_t *temp = stack;
 

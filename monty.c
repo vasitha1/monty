@@ -33,6 +33,45 @@ char *remove_spaces(char *str)
 	new_str[j] = '\0';
 	return (new_str);
 }
+
+/**
+ * count_line - function that counts lines of a file
+ * @file: Name of file whoes lines are to be counted
+ *
+ * Return: Number of lines.
+ */
+int count_line(FILE *file)
+{
+	char ch;
+
+	int count = 0;
+
+	while ((ch = fgetc(file)) != EOF)
+	{
+		if (ch == '\n')
+			count++;
+	}
+	fclose(file);
+
+	if (count > 0 && ch != '\n')
+		count++;
+	return (count);
+}
+/**
+ * stacking_func - Function reads from file then reads functions in stack
+ * @line: line of function.
+ * @file: File containing functions
+ *
+ * Return: Stack array of opcode and corresonding function
+ */
+/**instruction_t *stacking_func(instruction_t *ins, char *tok, char tok2, int top)
+*{
+*	instruc[top]->opcode = tok;
+*	instruc[top].f = tok(stack,
+*/
+
+
+
 /**
  * read_and_execute - Function that reads from file and executes command
  * @file: File to read from
@@ -47,6 +86,7 @@ void read_and_execute(FILE *file)
 	char *line = NULL;
 	size_t len = 0;
 	int line_number = 0;
+	stack_t *stack = NULL;
 
 	while ((read = getline(&line, &len, file)) != -1)
 	{
@@ -63,10 +103,10 @@ void read_and_execute(FILE *file)
 		if (strcmp(token, "push") == 0)
 		{
 			if (token2 != NULL)
-				push(token2);
+				push(&stack, token2);
 		}
 		else if (strcmp(token, "pall") == 0)
-			pall();
+			pall(stack);
 		else
 		{
 			fprintf(stderr, "L%d: unknown instruction %s",
@@ -102,7 +142,7 @@ int main(int argc, char *argv[])
 
 	if (file == NULL)
 	{
-		fprintf(stderr, "Error: Can't open file <file>");
+		fprintf(stderr, "Error: Can't open file %s", argv[1]);
 		exit(EXIT_FAILURE);
 	}
 	read_and_execute(file);

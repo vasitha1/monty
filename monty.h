@@ -39,6 +39,6 @@ typedef struct instruction_s
 
 extern stack_t *stack;
 
-void push(char *element);
-void pall(void);
+void push(stack_t **stack, char *element);
+void pall(stack_t *stack);
 #endif
