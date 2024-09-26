@@ -8,8 +8,9 @@
  *
  * Return: Null
  */
-void push(stack_t **stack, char *element)
+void o_push(stack_t **stack, unsigned int line_num)
 {
+	char *argument;
 	stack_t *new_node;
 
 	new_node = malloc(sizeof(stack_t));
@@ -19,8 +20,16 @@ void push(stack_t **stack, char *element)
 		fprintf(stderr, "Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
+	argument = strtok(NULL, "\n\t\r ");
 
-	new_node->n = atoi(element);
+	if (argument == NULL || (atoi(argument) == 0 && argument[0] != '0'))
+	{
+		fprintf(stderr, "L%u: usage: push integer\n",
+			line_num);
+		free(new_node);
+		exit(EXIT_FAILURE);
+	}
+	new_node->n = atoi(argument);
 	new_node->next = *stack;
 	new_node->prev = NULL;
 
@@ -36,9 +45,10 @@ void push(stack_t **stack, char *element)
  *
  * Return: void
  */
-void pall(stack_t *stack)
+void o_pall(stack_t **stack, unsigned int line_num)
 {
-	stack_t *temp = stack;
+	stack_t *temp = *stack;
+	(void)(line_num);
 
 	while (temp)
 	{

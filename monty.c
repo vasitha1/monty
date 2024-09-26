@@ -2,39 +2,6 @@
 #include "monty.h"
 
 /**
- * remove_spaces - function that removes unwanted spaces from string
- * @str: String space to be removed
- *
- * Return: String without unwanted spaces
- */
-char *remove_spaces(char *str)
-{
-	int i = 0;
-	int j = 0;
-	char *new_str = malloc(strlen(str) + 1);
-
-	if (new_str == NULL)
-	{
-		fprintf(stderr, "Error: malloc failed");
-		exit(EXIT_FAILURE);
-	}
-	while (str[i] == ' ')
-		i++;
-
-	while (str[i] != '\0' && str[i] != '$')
-	{
-		if (str[i] != ' ' || (j > 0 && new_str[j - 1] != ' '))
-		{
-			new_str[j] = str[i];
-			j++;
-		}
-		i++;
-	}
-	new_str[j] = '\0';
-	return (new_str);
-}
-
-/**
  * count_line - function that counts lines of a file
  * @file: Name of file whoes lines are to be counted
  *
@@ -57,6 +24,7 @@ int count_line(FILE *file)
 		count++;
 	return (count);
 }
+
 /**
  * execute_line - Executes a line in the file
  * @tok: First tocken representing command
@@ -67,38 +35,28 @@ int count_line(FILE *file)
  *
  * Return: Void
  */
-void execute_line(char *tok, char *tok2, int line_num, char *line, stack_t **s)
+void execute_line(char *tok, int line_num, stack_t **s)
 {
-	if (strcmp(tok, "push") == 0)
+	int i = 0;
+
+	instruction_t validate[] = {
+		{"push", o_push},
+		{"pall", o_pall},
+		{NULL, NULL}
+		};
+
+	while (validate[i].opcode != NULL)
 	{
-		if (tok2 == NULL ||
-		(atoi(tok2) == 0 && strcmp(tok2, "0") != 0))
+		if (strcmp(validate[i].opcode, tok) == 0)
 		{
-			fprintf(stderr, "L%d: unknown instruction %s",
-				line_num, line);
-			free(line);
-			exit(EXIT_FAILURE);
+			validate[i].f(s, line_num);
+			return;
 		}
-		push(s, tok2);
+		i++;
 	}
-	else if (strcmp(tok, "pall") == 0)
-	{
-		if (tok2 != NULL)
-		{
-			fprintf(stderr, "L%d: unknown instruction %s",
-				line_num, line);
-			free(line);
-			exit(EXIT_FAILURE);
-		}
-		pall(*s);
-	}
-	else
-	{
-		fprintf(stderr, "L%d: unknown instruction %s",
-			line_num, line);
-		free(line);
+	fprintf(stderr, "L%d: unknown instruction %s\n",
+		line_num, tok);
 		exit(EXIT_FAILURE);
-	}
 }
 
 /**
@@ -110,7 +68,7 @@ void execute_line(char *tok, char *tok2, int line_num, char *line, stack_t **s)
 void read_and_execute(FILE *file)
 {
 	ssize_t read;
-	char *token, *token2, *new_line;
+	char *token;
 
 	char *line = NULL;
 	size_t len = 0;
@@ -120,17 +78,13 @@ void read_and_execute(FILE *file)
 	while ((read = getline(&line, &len, file)) != -1)
 	{
 		line_number++;
-		new_line = remove_spaces(line);
-		token = strtok(new_line, " ");
-		token2 = strtok(NULL, " ");
+		token = strtok(line, "\n\t\r ");
 
-		if (token == NULL)
+		if (token == NULL || token[0] == '#')
 		{
-			free(new_line);
 			continue;
 		}
-		execute_line(token, token2, line_number, new_line, &stack);
-		free(new_line);
+		execute_line(token, line_number, &stack);
 	}
 	free(line);
 }
