@@ -4,6 +4,7 @@
 /**
  * push - function that adds an element to a dynamic stack
  * @element: element to be added
+ * @stack: Stack of values
  *
  * Return: Null
  */
@@ -31,6 +32,7 @@ void push(stack_t **stack, char *element)
 
 /**
  * pall - function that prints elements in stack from LIFO
+ * @stack: Stack of values
  *
  * Return: void
  */

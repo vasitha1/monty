@@ -57,19 +57,6 @@ int count_line(FILE *file)
 		count++;
 	return (count);
 }
-/**
- * stacking_func - Function reads from file then reads functions in stack
- * @line: line of function.
- * @file: File containing functions
- *
- * Return: Stack array of opcode and corresonding function
- */
-/**instruction_t *stacking_func(instruction_t *ins, char *tok, char tok2, int top)
-*{
-*	instruc[top]->opcode = tok;
-*	instruc[top].f = tok(stack,
-*/
-
 
 
 /**
