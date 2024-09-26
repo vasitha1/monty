@@ -2,8 +2,8 @@
 
 
 /**
- * push - function that adds an element to a dynamic stack
- * @element: element to be added
+ * o_push - function that adds an element to a dynamic stack
+ * @line_num: Tells which line is being executed
  * @stack: Stack of values
  *
  * Return: Null
@@ -40,8 +40,9 @@ void o_push(stack_t **stack, unsigned int line_num)
 }
 
 /**
- * pall - function that prints elements in stack from LIFO
+ * o_pall - function that prints elements in stack from LIFO
  * @stack: Stack of values
+ * @line_num: Tells which line is being executed
  *
  * Return: void
  */

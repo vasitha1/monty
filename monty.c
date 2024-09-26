@@ -28,9 +28,7 @@ int count_line(FILE *file)
 /**
  * execute_line - Executes a line in the file
  * @tok: First tocken representing command
- * @tok2: Second token representing argument
  * @line_num: Number of the line.
- * @line: String to be freed if exiting
  * @s: stack
  *
  * Return: Void
