@@ -3,12 +3,12 @@
 
 /**
  * o_push - function that adds an element to a dynamic stack
- * @line_num: Tells which line is being executed
+ * @line_number: Tells which line is being executed
  * @stack: Stack of values
  *
  * Return: Null
  */
-void o_push(stack_t **stack, unsigned int line_num)
+void o_push(stack_t **stack, unsigned int line_number)
 {
 	char *argument;
 	stack_t *new_node;
@@ -22,10 +22,10 @@ void o_push(stack_t **stack, unsigned int line_num)
 	}
 	argument = strtok(NULL, "\n\t\r ");
 
-	if (argument == NULL || (atoi(argument) == 0 && argument[0] != '0'))
+	if (argument == NULL || check_arg(argument) == -1)
 	{
 		fprintf(stderr, "L%u: usage: push integer\n",
-			line_num);
+			line_number);
 		free(new_node);
 		exit(EXIT_FAILURE);
 	}
@@ -42,14 +42,14 @@ void o_push(stack_t **stack, unsigned int line_num)
 /**
  * o_pall - function that prints elements in stack from LIFO
  * @stack: Stack of values
- * @line_num: Tells which line is being executed
+ * @line_number: Tells which line is being executed
  *
  * Return: void
  */
-void o_pall(stack_t **stack, unsigned int line_num)
+void o_pall(stack_t **stack, unsigned int line_number)
 {
 	stack_t *temp = *stack;
-	(void)(line_num);
+	(void)(line_number);
 
 	while (temp)
 	{

@@ -28,12 +28,12 @@ int count_line(FILE *file)
 /**
  * execute_line - Executes a line in the file
  * @tok: First tocken representing command
- * @line_num: Number of the line.
+ * @line_number: Number of the line.
  * @s: stack
  *
  * Return: Void
  */
-void execute_line(char *tok, int line_num, stack_t **s)
+void execute_line(char *tok, int line_number, stack_t **s)
 {
 	int i = 0;
 
@@ -47,13 +47,13 @@ void execute_line(char *tok, int line_num, stack_t **s)
 	{
 		if (strcmp(validate[i].opcode, tok) == 0)
 		{
-			validate[i].f(s, line_num);
+			validate[i].f(s, line_number);
 			return;
 		}
 		i++;
 	}
 	fprintf(stderr, "L%d: unknown instruction %s\n",
-		line_num, tok);
+		line_number, tok);
 		exit(EXIT_FAILURE);
 }
 
@@ -109,7 +109,7 @@ int main(int argc, char *argv[])
 
 	if (file == NULL)
 	{
-		fprintf(stderr, "Error: Can't open file %s", argv[1]);
+		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
 	read_and_execute(file);
