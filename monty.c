@@ -85,6 +85,7 @@ void read_and_execute(FILE *file)
 		execute_line(token, line_number, &stack);
 	}
 	free(line);
+	free_dlistint(stack);
 }
 
 

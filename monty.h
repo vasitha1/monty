@@ -43,4 +43,5 @@ extern stack_t *stack;
 void o_push(stack_t **stack, unsigned int line_number);
 void o_pall(stack_t **stack, unsigned int line_number);
 int check_arg(char *argument);
+void free_dlistint(stack_t *head);
 #endif
