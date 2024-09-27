@@ -47,5 +47,6 @@ void free_dlistint(stack_t *head);
 void o_pint(stack_t **stack, unsigned int line_number);
 void o_pop(stack_t **stack, unsigned int line_number);
 void o_swap(stack_t **stack, unsigned int line_number);
+void o_add(stack_t **stack, unsigned int line_number);
 
 #endif
