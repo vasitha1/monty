@@ -42,6 +42,7 @@ void execute_line(char *tok, int line_number, stack_t **s)
 		{"pall", o_pall},
 		{"pint", o_pint},
 		{"pop", o_pop},
+		{"swap", o_swap},
 		{NULL, NULL}
 		};
 
