@@ -40,6 +40,7 @@ void execute_line(char *tok, int line_number, stack_t **s)
 	instruction_t validate[] = {
 		{"push", o_push},
 		{"pall", o_pall},
+		{"pint", o_pint},
 		{NULL, NULL}
 		};
 
