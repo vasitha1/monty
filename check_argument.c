@@ -2,7 +2,7 @@
 
 /**
  * check_arg - Function that correctly changes the string argument to an int
- * @argument - String to be transformed
+ * @argument: String to be transformed
  *
  * Return: Transformed int (success) or -1 failure
  */
